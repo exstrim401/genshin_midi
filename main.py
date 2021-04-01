@@ -1,6 +1,7 @@
 import sys
+import ctypes
 from mido import MidiFile
-from pynput.keyboard import Key, Controller
+from pynput.keyboard import Controller
 
 def get_correct_note(num):
     octava = (num-1) // 12
@@ -24,6 +25,9 @@ KEYBOARD_MAP = ["z", "x", "c", "v", "b", "n", "m",
                 "a", "s", "d", "f", "g", "h", "j",
                 "q", "w", "e", "r", "t", "y", "u"]
 CHANNEL = 0
+if not ctypes.windll.shell32.IsUserAnAdmin():
+    print("Run this script as Admin!")
+    exit(1)
 if len(sys.argv) == 1:
     print(f"Usage: {sys.argv[0]} file.mid")
     exit(1)
