@@ -1,5 +1,7 @@
 import sys
 import ctypes
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 from mido import MidiFile
 from pynput.keyboard import Controller
 
@@ -29,9 +31,13 @@ if not ctypes.windll.shell32.IsUserAnAdmin():
     print("Run this script as Admin!")
     exit(1)
 if len(sys.argv) == 1:
-    print(f"Usage: {sys.argv[0]} file.mid")
-    exit(1)
-mid = MidiFile(sys.argv[1])
+    Tk().withdraw()
+    filename = askopenfilename(title="Choose .mid file", filetypes=[("MIDI files", ".mid")])
+    if not filename:
+        exit(1)
+else:
+    filename = sys.argv[1]
+mid = MidiFile(filename)
 min_note = 200
 channels = []
 for msg in mid:
